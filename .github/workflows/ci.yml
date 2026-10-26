@@ -1,0 +1,16 @@
+name: macOS CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  test-and-build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run unit tests
+        run: swift test
+      - name: Build Apple Silicon release
+        run: swift build -c release --triple arm64-apple-macosx13.0 --product SeamlessWiFi
+      - name: Build Intel release
+        run: swift build -c release --triple x86_64-apple-macosx13.0 --product SeamlessWiFi
